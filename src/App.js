@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+import { getTracks } from './actions/tracks';
 
 
 class App extends Component {
@@ -31,6 +32,9 @@ class App extends Component {
                     })
                 }
             </ul>
+            <div>
+                <button onClick={this.props.onGetTracks}>Get tracks</button>
+            </div>
         </div>
     );
   }
@@ -51,6 +55,9 @@ export default connect(
         },
         onFindTrack: (name) => {
             dispatch({ type: 'FIND_TRACK', payload: name })
+        },
+        onGetTracks: () => {
+            dispatch(getTracks());
         }
     })
 )(App);
