@@ -4,20 +4,35 @@ import { getTracks } from './actions/tracks';
 
 
 class App extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            result: 0,
+        }
+    }
     addTrack = () => {
         this.props.onAddTrack(this.trackInput.value);
         this.trackInput.value = '';
     }
 
     findTrack = () => {
-        console.log('findTrack', this.searchInput.value);
         this.props.onFindTrack(this.searchInput.value);
+    }
+
+    onAddNumber = () => {
+        this.props.addNumber(this.props.number);
+    }
+
+    onDecNumber = () => {
+        this.props.decNumber(this.props.number);
     }
 
   render() {
       const addTrack = this.addTrack;
       const findTrack = this.findTrack;
-    return (
+      const onAddNumber = this.onAddNumber;
+      const onDecNumber = this.onDecNumber;
+      return (
         <div>
             <div>
                 <input type="text" ref={(input) => { this.searchInput = input }} />
@@ -35,6 +50,12 @@ class App extends Component {
             <div>
                 <button onClick={this.props.onGetTracks}>Get tracks</button>
             </div>
+
+            <div className="counter_container">
+                <button className="plus" onClick={onAddNumber}>+</button>
+                <div className="result">{this.props.number}</div>
+                <button className="minus" onClick={onDecNumber}>-</button>
+            </div>
         </div>
     );
   }
@@ -43,7 +64,8 @@ class App extends Component {
 
 export default connect(
     state => ({
-        tracks: state.tracks.filter(track => track.name.includes(state.filterTracks))
+        tracks: state.tracks.filter(track => track.name.includes(state.filterTracks)),
+        number: state.counter
     }),
     dispatch => ({
         onAddTrack: (name) => {
@@ -58,6 +80,12 @@ export default connect(
         },
         onGetTracks: () => {
             dispatch(getTracks());
+        },
+        addNumber: (num) => {
+            dispatch({type: 'ADD_PLUS', number: num })
+        },
+        decNumber: (num) => {
+            dispatch({type: 'ADD_MINUS', number: num })
         }
     })
 )(App);
