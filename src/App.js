@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { getTracks } from './actions/tracks';
+import ContactForm from './form';
 
 
 class App extends Component {
@@ -25,6 +26,10 @@ class App extends Component {
 
     onDecNumber = () => {
         this.props.decNumber(this.props.number);
+    }
+
+    submit = values => {
+        console.log(values)
     }
 
   render() {
@@ -55,6 +60,9 @@ class App extends Component {
                 <button className="plus" onClick={onAddNumber}>+</button>
                 <div className="result">{this.props.number}</div>
                 <button className="minus" onClick={onDecNumber}>-</button>
+            </div>
+            <div className="contact-form">
+                <ContactForm onSubmit={this.submit}/>
             </div>
         </div>
     );
