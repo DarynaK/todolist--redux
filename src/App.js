@@ -9,6 +9,8 @@ class App extends Component {
         super(props);
         this.state = {
             result: 0,
+            name: '',
+            email: '',
         }
     }
     addTrack = () => {
@@ -32,11 +34,41 @@ class App extends Component {
         console.log(values)
     }
 
+    getName = event => {
+        this.setState({
+            name: event.target.value,
+        })
+    }
+
+    getEmail = event => {
+        this.setState({
+            email: event.target.value,
+        })
+    }
+
+    formSubmit = event => {
+        event.preventDefault();
+        let userData = {
+            userName: this.state.name,
+            userEmail: this.state.email
+        }
+
+        this.props.formSubmit(userData);
+        this.setState({
+            name: '',
+            email: '',
+        })
+
+    }
+
   render() {
       const addTrack = this.addTrack;
       const findTrack = this.findTrack;
       const onAddNumber = this.onAddNumber;
       const onDecNumber = this.onDecNumber;
+      const getName = this.getName;
+      const getEmail = this.getEmail;
+      const formSubmit = this.formSubmit;
       return (
         <div>
             <div>
@@ -64,6 +96,15 @@ class App extends Component {
             <div className="contact-form">
                 <ContactForm onSubmit={this.submit}/>
             </div>
+            <div className="custom-form">
+                <form onSubmit={formSubmit}>
+                 <fieldset>
+                    <input type="text" name="name" value={this.state.name} onChange={getName} placeholder="Name"/>
+                    <input type="email" name="email" value={this.state.email} onChange={getEmail} placeholder="Email"/>
+                    <input type="submit" value="Submit"/>
+                </fieldset>
+                </form>
+            </div>
         </div>
     );
   }
@@ -75,6 +116,7 @@ export default connect(
         tracks: state.tracks.filter(track => track.name.includes(state.filterTracks)),
         number: state.counter
     }),
+
     dispatch => ({
         onAddTrack: (name) => {
             const payload = {
@@ -94,6 +136,9 @@ export default connect(
         },
         decNumber: (num) => {
             dispatch({type: 'ADD_MINUS', number: num })
+        },
+        formSubmit: (values) => {
+            dispatch({type: 'SUBMIT', values});
         }
     })
 )(App);
