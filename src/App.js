@@ -8,6 +8,7 @@ class App extends Component {
         this.trackInput.value = '';
     }
   render() {
+      console.log('first push for feature/first-branch');
       const addTrack = this.addTrack;
     return (
         <div>
