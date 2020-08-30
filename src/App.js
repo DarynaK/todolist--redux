@@ -69,6 +69,7 @@ class App extends Component {
       const getName = this.getName;
       const getEmail = this.getEmail;
       const formSubmit = this.formSubmit;
+      console.log(this.state.name);
       return (
         <div>
             <div>
